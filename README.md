@@ -1,6 +1,6 @@
 # Brancify
 
-Small tool to generate branch name from a Jira issue key.
+Small tool to generate branch name from a Jira issue key in the format `[ISSUE_TYPE]/[ISSUE_KEY]-[ISSUE_SUMMARY]`.
 
 ## Config
 
@@ -23,4 +23,11 @@ Options:
   --key required KEY REQUIRED, -k KEY REQUIRED
                          Jira Issue Key
   --help, -h             display this help and exit
+```
+
+### Example 
+
+```
+./brancify -k MYAL-9748
+bugfix/MYAL-9748-requested-at-sent-in-two-formats-hence-breaking-the-logging
 ```
