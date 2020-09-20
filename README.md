@@ -25,7 +25,7 @@ Options:
   --help, -h             display this help and exit
 ```
 
-### Example 
+## Example 
 
 ```
 ./brancify -k MYAL-9748
