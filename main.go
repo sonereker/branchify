@@ -38,7 +38,7 @@ func getConfig() (string, string, string) {
 		log.Fatal(err)
 	}
 
-	config, err := yaml.ReadFile(usr.HomeDir + "/.brancify.yaml")
+	config, err := yaml.ReadFile(usr.HomeDir + "/.brancify")
 	if err != nil {
 		fmt.Println(err)
 	}
