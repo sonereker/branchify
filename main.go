@@ -5,7 +5,8 @@ import (
 	"github.com/alexflint/go-arg"
 	"github.com/andygrunwald/go-jira"
 	"github.com/gosimple/slug"
-	"github.com/kylelemons/go-gypsy/yaml"
+	"gopkg.in/yaml.v2"
+	"io/ioutil"
 	"log"
 	"os/user"
 )
@@ -15,46 +16,48 @@ var args struct {
 	IssueKey     string `arg:"-k,--key required" help:"Jira Issue Key"`
 }
 
+type conf struct {
+	BaseUrl  string `yaml:"base_url"`
+	Username string `yaml:"username"`
+	Password string `yaml:"password"`
+}
+
 func main() {
 	arg.MustParse(&args)
 
-	baseUrl, username, password := getConfig()
+	c := readConf("brancify")
 
 	tp := jira.BasicAuthTransport{
-		Username: username,
-		Password: password,
+		Username: c.Username,
+		Password: c.Password,
 	}
 
-	j, _ := jira.NewClient(tp.Client(), baseUrl)
-	issue, _, _ := j.Issue.Get(args.IssueKey, nil)
+	j, _ := jira.NewClient(tp.Client(), c.BaseUrl)
+	issue, _, err := j.Issue.Get(args.IssueKey, nil)
+	if err != nil {
+		log.Fatalf("Jira: %v", err)
+	}
 
 	summarySlug := slug.Make(issue.Fields.Summary)
 	fmt.Printf("%s%s-%s\n", args.BranchPrefix, issue.Key, summarySlug)
 }
 
-func getConfig() (string, string, string) {
+func readConf(filename string) *conf {
 	usr, err := user.Current()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	config, err := yaml.ReadFile(usr.HomeDir + "/.brancify")
+	yamlFile, err := ioutil.ReadFile(usr.HomeDir + "/." + filename)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatalf("Config File: %v", err)
 	}
 
-	baseUrl, err := config.Get("base_url")
+	c := &conf{}
+	err = yaml.Unmarshal(yamlFile, c)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatalf("Unmarshal: %v", err)
 	}
 
-	username, err := config.Get("username")
-	if err != nil {
-		fmt.Println(err)
-	}
-	password, err := config.Get("password")
-	if err != nil {
-		fmt.Println(err)
-	}
-	return baseUrl, username, password
+	return c
 }
