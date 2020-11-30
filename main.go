@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/alexflint/go-arg"
 	"github.com/andygrunwald/go-jira"
+	"github.com/atotto/clipboard"
 	"github.com/gosimple/slug"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
@@ -39,7 +40,14 @@ func main() {
 	}
 
 	summarySlug := slug.Make(issue.Fields.Summary)
-	fmt.Printf("%s%s-%s\n", args.BranchPrefix, issue.Key, summarySlug)
+	branchName := fmt.Sprintf("%s%s-%s", args.BranchPrefix, issue.Key, summarySlug)
+	fmt.Println(branchName)
+	copyToClipboard(branchName)
+}
+
+func copyToClipboard(summarySlug string) {
+	_ = clipboard.WriteAll(summarySlug)
+	fmt.Println("Copied to clipboard!")
 }
 
 func readConf(filename string) *conf {
