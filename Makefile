@@ -4,19 +4,20 @@ GOCLEAN=$(GOCMD) clean
 GOGET=$(GOCMD) get
 BINARY_NAME=brancify
 BINARY_UNIX=$(BINARY_NAME)_unix
+MAIN_PATH=./cmd/brancify
 
-all: get clean build
+all: get clean build build-linux
 get:
-	$(GOGET)
+	$(GOGET) ./cmd/brancify
 clean:
 	$(GOCLEAN)
 	rm -f $(BINARY_NAME)
 	rm -f $(BINARY_UNIX)
 build:
-	$(GOBUILD) -o $(BINARY_NAME) -v
+	$(GOBUILD) -o $(BINARY_NAME) -v $(MAIN_PATH)
 run:
-	$(GOBUILD) -o $(BINARY_NAME) -v ./...
+	$(GOBUILD) -o $(BINARY_NAME) -v $(MAIN_PATH)
 	./$(BINARY_NAME)
 
 build-linux:
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GOBUILD) -o $(BINARY_UNIX) -v
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GOBUILD) -o $(BINARY_UNIX) -v $(MAIN_PATH)
