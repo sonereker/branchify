@@ -11,7 +11,7 @@ import (
 
 var args struct {
 	BranchPrefix string `arg:"-p,--prefix" help:"Branch type prefix default is /bugfix" default:"bugfix/"`
-	IssueKey     string `arg:"-k,--key required" help:"Jira Issue Key"`
+	IssueKey     string `arg:"-k,--key,required" help:"Jira Issue Key"`
 }
 
 func main() {
