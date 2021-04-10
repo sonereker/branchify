@@ -1,10 +1,11 @@
 package jira
 
 import (
+	"fmt"
 	"github.com/andygrunwald/go-jira"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
-	"log"
+	"os"
 	"os/user"
 )
 
@@ -34,27 +35,26 @@ func New() *Client {
 func (j *Client) GetSummary(issueKey string) string {
 	issue, _, err := j.Client.Issue.Get(issueKey, nil)
 	if err != nil {
-		log.Fatalf("Jira: %v", err)
+		fmt.Fprintf(os.Stderr, "Jira Error: %s\n", err.Error())
+		os.Exit(1)
 	}
 
 	return issue.Fields.Summary
 }
 
 func readConf(filename string) *conf {
-	usr, err := user.Current()
-	if err != nil {
-		log.Fatal(err)
-	}
-
+	usr, _ := user.Current()
 	yamlFile, err := ioutil.ReadFile(usr.HomeDir + "/." + filename)
 	if err != nil {
-		log.Fatalf("Config file is missing: %v", err)
+		fmt.Fprintf(os.Stderr, "Config file is missing: %s\n", err.Error())
+		os.Exit(1)
 	}
 
 	c := &conf{}
 	err = yaml.Unmarshal(yamlFile, c)
 	if err != nil {
-		log.Fatalf("Config file error: %v", err)
+		fmt.Fprintf(os.Stderr, "Config file error: %s\n", err.Error())
+		os.Exit(1)
 	}
 
 	return c

@@ -1,11 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"github.com/alexflint/go-arg"
 	"github.com/atotto/clipboard"
 	"github.com/sonereker/branchify/internal/branch"
 	"github.com/sonereker/branchify/internal/jira"
-	"log"
+	"os"
 )
 
 var args struct {
@@ -21,13 +22,13 @@ func main() {
 
 	n := branch.NewName(args.BranchPrefix, args.IssueKey, summary)
 	branchName := n.Generate()
-	log.Println(branchName)
+	fmt.Println(branchName)
 
 	// Copy generated branch name to clipboard
 	err := clipboard.WriteAll(branchName)
 	if err != nil {
-		log.Fatal(err)
-		return
+		fmt.Fprintf(os.Stderr, "Couldn't copy to clipboard: %s\n", err.Error())
+		os.Exit(1)
 	}
-	log.Println("Copied to clipboard!")
+	fmt.Println("Copied to clipboard!")
 }
