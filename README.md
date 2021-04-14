@@ -12,10 +12,10 @@ username: <JIRA_USERNAME>
 password: <JIRA_PASSWORD>
 ```
 
-## Build
+## Install
 
 ```
-make
+go get github.com/sonereker/branchify/cmd/branchify
 ```
 
 ## Usage
