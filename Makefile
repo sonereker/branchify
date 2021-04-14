@@ -2,13 +2,13 @@ GOCMD=go
 GOBUILD=$(GOCMD) build
 GOCLEAN=$(GOCMD) clean
 GOGET=$(GOCMD) get
-BINARY_NAME=brancify
+BINARY_NAME=branchify
 BINARY_UNIX=$(BINARY_NAME)_unix
-MAIN_PATH=./cmd/brancify
+MAIN_PATH=./cmd/branchify
 
 all: get clean build build-linux
 get:
-	$(GOGET) ./cmd/brancify
+	$(GOGET) ./cmd/branchify
 clean:
 	$(GOCLEAN)
 	rm -f $(BINARY_NAME)

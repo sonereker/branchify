@@ -1,10 +1,10 @@
-# Brancify
+# Branchify
 
 Small tool to generate branch name from a Jira issue key in the format `[ISSUE_TYPE]/[ISSUE_KEY]-[ISSUE_SUMMARY]`.
 
 ## Config
 
-Create a config file named `.brancify` in `$HOME` dir with keys;
+Create a config file named `.branchify` in `$HOME` dir with keys;
 
 ```
 base_url: <JIRA_BASE_URL>
@@ -34,6 +34,6 @@ Options:
 ### Example
 
 ```
-./brancify -k MYAL-9748
+./branchify -k MYAL-9748
 bugfix/MYAL-9748-requested-at-sent-in-two-formats-hence-breaking-the-logging
 ```

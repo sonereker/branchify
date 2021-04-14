@@ -20,7 +20,7 @@ type Client struct {
 }
 
 func New() *Client {
-	c := readConf("brancify")
+	c := readConf("branchify")
 
 	tp := jira.BasicAuthTransport{
 		Username: c.Username,
