@@ -15,11 +15,12 @@ type conf struct {
 	Password string `yaml:"password"`
 }
 
-type Client struct {
+type client struct {
 	Client *jira.Client
 }
 
-func New() *Client {
+//New returns new a Jive Client
+func New() *client {
 	c := readConf("branchify")
 
 	tp := jira.BasicAuthTransport{
@@ -27,12 +28,12 @@ func New() *Client {
 		Password: c.Password,
 	}
 
-	client, _ := jira.NewClient(tp.Client(), c.BaseUrl)
-	return &Client{Client: client}
+	jc, _ := jira.NewClient(tp.Client(), c.BaseUrl)
+	return &client{Client: jc}
 }
 
 //GetSummary returns summary value of the issue
-func (j *Client) GetSummary(issueKey string) string {
+func (j *client) GetSummary(issueKey string) string {
 	issue, _, err := j.Client.Issue.Get(issueKey, nil)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Jira Error: %s\n", err.Error())

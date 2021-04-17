@@ -1,5 +1,7 @@
 # Branchify
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/sonereker/branchify)](https://goreportcard.com/report/github.com/sonereker/branchify)
+
 Small tool to generate branch name from a Jira issue key in the format `[ISSUE_TYPE]/[ISSUE_KEY]-[ISSUE_SUMMARY]`.
 
 ## Config

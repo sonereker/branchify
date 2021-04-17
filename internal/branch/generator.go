@@ -5,18 +5,19 @@ import (
 	"github.com/gosimple/slug"
 )
 
-type Name struct {
+type name struct {
 	Prefix   string
 	IssueKey string
 	Summary  string
 }
 
-func NewName(prefix string, issueKey string, summary string) *Name {
-	return &Name{Prefix: prefix, IssueKey: issueKey, Summary: summary}
+//NewName returns a new `Name` instance
+func NewName(prefix string, issueKey string, summary string) *name {
+	return &name{Prefix: prefix, IssueKey: issueKey, Summary: summary}
 }
 
 //Generate returns branch name generated from prefix, issueKey and summarySlug
-func (s *Name) Generate() string {
+func (s *name) Generate() string {
 	summarySlug := slug.Make(s.Summary)
 	branchName := fmt.Sprintf("%s%s-%s", s.Prefix, s.IssueKey, summarySlug)
 	return branchName
